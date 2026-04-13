@@ -10,6 +10,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [loggedInUserData, setLoggedInUserData] = useState(null)
   const [userData,SetUserData] = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(()=>{
     const loggedInUser = localStorage.getItem('loggedInUser')
@@ -20,6 +21,11 @@ const App = () => {
       setLoggedInUserData(userData.data)
     }
 
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+
+    return () => clearTimeout(timer)
   },[])
 
 
@@ -41,6 +47,13 @@ const App = () => {
   }
 
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#111]">
+        <div className="w-16 h-16 border-4 border-solid border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    )
+  }
 
   return (
     <>
